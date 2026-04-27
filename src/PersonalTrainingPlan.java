@@ -1,7 +1,7 @@
 public class PersonalTrainingPlan extends MembershipPlan {
-    public int sessionsPerMonth;
-    public int trainerLevel;
-    public boolean dietConsultationIncluded;
+    private int sessionsPerMonth;
+    private int trainerLevel;
+    private boolean dietConsultationIncluded;
     public PersonalTrainingPlan(String planCode, String clientName, int months,
                                 double baseMonthlyFee, boolean autoRenew, int sessionsPerMonth, int trainerLevel, boolean dietConsultationIncluded) {
         super(planCode, clientName, months, baseMonthlyFee, autoRenew);
@@ -17,11 +17,20 @@ public class PersonalTrainingPlan extends MembershipPlan {
 
     @Override
     public double calculateMonthlyNetPrice() {
-        double price = baseMonthlyFee + sessionsPerMonth * 70;
+        double price = getBaseMonthlyFee() + sessionsPerMonth * 70;
         if (trainerLevel == 2) price += 90;
         else if (trainerLevel == 3) price += 180;
         if (dietConsultationIncluded) price += 50;
-        if (autoRenew) price -= 15;
+        if (isAutoRenew()) price -= 15;
         return price;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", sessionsPerMonth=" + sessionsPerMonth +
+            ", trainerLevel=" + trainerLevel +
+            ", dietConsultationIncluded=" + dietConsultationIncluded;
+    }
+
 }

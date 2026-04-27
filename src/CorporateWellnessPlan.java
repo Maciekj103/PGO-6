@@ -1,7 +1,7 @@
 public class CorporateWellnessPlan extends MembershipPlan implements  RemoteAccess, Freezable{
-    public int employeeCount;
-    public int workshopsPerMonth;
-    public boolean onlineDashboard;
+    private int employeeCount;
+    private int workshopsPerMonth;
+    private boolean onlineDashboard;
 
     public CorporateWellnessPlan(String planCode, String clientName, int months,
                                  double baseMonthlyFee, boolean autoRenew, int employeeCount,
@@ -14,12 +14,12 @@ public class CorporateWellnessPlan extends MembershipPlan implements  RemoteAcce
 
     @Override
     public String getPlanType() {
-        return "";
+        return "Pakiet firmowy";
     }
 
     @Override
     public double calculateMonthlyNetPrice() {
-        double price = baseMonthlyFee + employeeCount * 18 + workshopsPerMonth * 220;
+        double price = getBaseMonthlyFee() + employeeCount * 18 + workshopsPerMonth * 220;
         if (employeeCount >= 20) price *= 0.88;
         if (onlineDashboard) price += 80;
         return price;
@@ -27,11 +27,20 @@ public class CorporateWellnessPlan extends MembershipPlan implements  RemoteAcce
 
     @Override
     public boolean canFreeze() {
-        return false;
+        return getMonths() >= 6 && workshopsPerMonth == 0;
     }
 
     @Override
     public boolean hasOnlineAccess() {
         return onlineDashboard;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", employeeCount=" + employeeCount +
+            ", workshopsPerMonth=" + workshopsPerMonth +
+            ", onlineDashboard=" + onlineDashboard;
+    }
+
 }

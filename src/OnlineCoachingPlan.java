@@ -1,7 +1,7 @@
 public class OnlineCoachingPlan extends MembershipPlan implements RemoteAccess {
-    public int videoConsultations;
-    public boolean mealPlanIncluded;
-    public boolean recordedLibraryAccess;
+    private int videoConsultations;
+    private boolean mealPlanIncluded;
+    private boolean recordedLibraryAccess;
     public OnlineCoachingPlan(String planCode, String clientName, int months,
                               double baseMonthlyFee, boolean autoRenew, int videoConsultations, boolean mealPlanIncluded, boolean recordedLibraryAccess) {
         super(planCode, clientName, months, baseMonthlyFee, autoRenew);
@@ -17,10 +17,10 @@ public class OnlineCoachingPlan extends MembershipPlan implements RemoteAccess {
 
     @Override
     public double calculateMonthlyNetPrice() {
-        double price = baseMonthlyFee + videoConsultations * 45;
+        double price = getBaseMonthlyFee() + videoConsultations * 45;
         if (mealPlanIncluded) price += 60;
         if (recordedLibraryAccess) price += 20;
-        if (autoRenew) price -= 12;
+        if (isAutoRenew()) price -= 12;
 
         return price;
     }
@@ -29,4 +29,13 @@ public class OnlineCoachingPlan extends MembershipPlan implements RemoteAccess {
     public boolean hasOnlineAccess() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", videoConsultations=" + videoConsultations +
+            ", mealPlanIncluded=" + mealPlanIncluded +
+            ", recordedLibraryAccess=" + recordedLibraryAccess;
+    }
+
 }
